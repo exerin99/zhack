@@ -5,7 +5,7 @@
             "scripts": [ "libs/logging.js", "code/card.js" ]
         },
         {
-            "urls": [ "https://uchi.ru/subject/*/students/homeworks/*/cards/", "https://uchi.ru/subject/*/students/homeworks/*/cards/*" ],
+            "urls": [ "https://uchi.ru/subject/1/students/homeworks/333291459/cards/19465", "https://uchi.ru/subject/*/students/homeworks/*/cards/*" ],
             "scripts": [ "libs/logging.js", "code/card.js" ]
         },
         {
