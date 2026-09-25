@@ -1,7 +1,7 @@
 function main() {
     if (typeof Card === 'undefined' || typeof Card.Player === 'undefined'
         || typeof Card.Player.__score === 'undefined') {
-        setTimeout(main, 50);
+        setTimeout(main, 5);
         return;
     }
 
