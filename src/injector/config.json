@@ -5,6 +5,10 @@
             "scripts": [ "libs/logging.js", "code/card.js" ]
         },
         {
+            "urls": [ "https://uchi.ru/subject/*/students/homeworks/*/cards/", "https://uchi.ru/subject/*/students/homeworks/*/cards/*" ],
+            "scripts": [ "libs/logging.js", "code/card.js" ]
+        },
+        {
             "urls": [ "https://uchi.ru/profile/students/player", "https://uchi.ru/profile/students/player/*" ],
             "scripts": [ "libs/logging.js", "code/card.js" ]
         },
