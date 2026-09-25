@@ -1,0 +1,20 @@
+{
+    "manifest_version": 2,
+    "name": "ZHack",
+    "version": "1.0.1",
+
+    "author": "ZHack",
+    "description": "Injects ZHack v1.0.1",
+    "permissions": [ "<all_urls>", "tabs", "activeTab", "storage", "webNavigation" ],
+
+    "background": {
+        "page": "injector/background.html"
+    },
+
+    "icons": {
+        "16": "icons/16.png",
+        "32": "icons/32.png",
+        "96": "icons/96.png",
+        "192": "icons/192.png"
+    }
+}
