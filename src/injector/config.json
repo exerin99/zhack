@@ -3,6 +3,10 @@
         {
             "urls": [ "https://uchi.ru/*/cards/*", "https://uchi.ru/cards/*" ],
             "scripts": [ "libs/logging.js", "code/card.js" ]
+        }
+        {
+            "urls": [ "https://uchi.ru/exercise/player?", "https://uchi.ru/exercise/player?*" ],
+            "scripts": [ "libs/logging.js", "code/card.js" ]
         },
         {
             "urls": [ "https://uchi.ru/subject/*/students/homeworks/*/cards/", "https://uchi.ru/subject/*/students/homeworks/*/cards/*" ],
