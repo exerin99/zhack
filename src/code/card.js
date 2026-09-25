@@ -129,9 +129,9 @@ function main() {
     }
 
     if (sessionStorage.getItem('doSolve') === 'true' && sessionStorage.getItem('solverUrl') == location.href) {
-        l_info("Продолжаем решение карточки...");
+        l_info("");
         if (sessionStorage.getItem('solved') === 'true') {
-            l_info("Карточка успешно решена!");
+            l_info("");
             sessionStorage.setItem('doSolve', 'false');
             sessionStorage.setItem('solved', 'false');
         } else if (Card.Player.__score.current === Card.Player.__score.total) {
@@ -147,7 +147,7 @@ function main() {
         }
     }
 
-    l_success("Скрипт закончил свою работу!");
+    l_success("");
 };
 
 (() => {
