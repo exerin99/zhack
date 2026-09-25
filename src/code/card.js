@@ -9,38 +9,26 @@ function main() {
     isOld = false;
 
     if (typeof Card.Player._emitSignal === 'undefined') {
-        l_exinfo("\"Card.Player._emitSignal\" не найден, это старое задание");
         isOld = true;
     }
 
     function send_event(a, b) {
-        l_info("Отправляем API реквест к \"events\"...");
-        console.group("Информация о реквесте");
-        console.log("Событие: ", a);
-        console.log("Данные: ", b);
-        console.groupEnd();
         if (isOld) Card.Player.__score.tutor._sys_event(a, b);
         else Card.Player._emitSignal(a, b);
     }
 
     function report_solve() {
-        l_info("Отправляем \"$lesson_finish\"...");
         send_event("$lesson_finish");
         reload_on_sent();
     }
 
     function get_score_json() {
-        l_info("Получаем Score JSON...");
         var n = {};
         Card.Player.__score.save(n);
-        console.group("Score JSON");
-        console.log("Data: ", n);
-        console.groupEnd();
         return n;
     }
 
     function solve_current() {
-        l_info("Решаем текущее задание...");
         if (Card.Player.__score.current + 1 <= Card.Player.__score.total)
             Card.Player.__score.current++; 
         if (Card.Player.__score._index + 2 <= Card.Player.__score.total) 
@@ -58,7 +46,6 @@ function main() {
     }
 
     function solve_all() {
-        l_info("Автоматическое решение включено!");
         sessionStorage.setItem('solverUrl', location.href);
         sessionStorage.setItem('doSolve', 'true');
         solve_current();
@@ -129,9 +116,7 @@ function main() {
     }
 
     if (sessionStorage.getItem('doSolve') === 'true' && sessionStorage.getItem('solverUrl') == location.href) {
-        l_info("Продолжаем решение карточки...");
         if (sessionStorage.getItem('solved') === 'true') {
-            l_info("Карточка успешно решена!");
             sessionStorage.setItem('doSolve', 'false');
             sessionStorage.setItem('solved', 'false');
         } else if (Card.Player.__score.current === Card.Player.__score.total) {
@@ -146,8 +131,6 @@ function main() {
             reload_on_sent();
         }
     }
-
-    l_success("Скрипт закончил свою работу!");
 };
 
 (() => {
@@ -156,8 +139,6 @@ function main() {
     ZHack = {};
     ZHack.type = "card";
     ZHack.version = "v1.0.2";
-
-    l_exinfo(`Версия ${ZHack.version}`);
 
     main();
 })();
