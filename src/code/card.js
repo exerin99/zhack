@@ -14,7 +14,7 @@ function main() {
     }
 
     function send_event(a, b) {
-        l_info("");
+        l_info("Отправляем API реквест к \"events\"...");
         console.group("Информация о реквесте");
         console.log("Событие: ", a);
         console.log("Данные: ", b);
@@ -24,7 +24,7 @@ function main() {
     }
 
     function report_solve() {
-        l_info("");
+        l_info("Отправляем \"$lesson_finish\"...");
         send_event("$lesson_finish");
         reload_on_sent();
     }
@@ -40,7 +40,7 @@ function main() {
     }
 
     function solve_current() {
-        l_info("");
+        l_info("Решаем текущее задание...");
         if (Card.Player.__score.current + 1 <= Card.Player.__score.total)
             Card.Player.__score.current++; 
         if (Card.Player.__score._index + 2 <= Card.Player.__score.total) 
@@ -58,7 +58,7 @@ function main() {
     }
 
     function solve_all() {
-        l_info("");
+        l_info("Автоматическое решение включено!");
         sessionStorage.setItem('solverUrl', location.href);
         sessionStorage.setItem('doSolve', 'true');
         solve_current();
@@ -129,9 +129,9 @@ function main() {
     }
 
     if (sessionStorage.getItem('doSolve') === 'true' && sessionStorage.getItem('solverUrl') == location.href) {
-        l_info("");
+        l_info("Продолжаем решение карточки...");
         if (sessionStorage.getItem('solved') === 'true') {
-            l_info("");
+            l_info("Карточка успешно решена!");
             sessionStorage.setItem('doSolve', 'false');
             sessionStorage.setItem('solved', 'false');
         } else if (Card.Player.__score.current === Card.Player.__score.total) {
@@ -147,7 +147,7 @@ function main() {
         }
     }
 
-    l_success("");
+    l_success("Скрипт закончил свою работу!");
 };
 
 (() => {
