@@ -14,7 +14,7 @@ function main() {
     }
 
     function send_event(a, b) {
-        l_info("Отправляем API реквест к \"events\"...");
+        l_info("");
         console.group("Информация о реквесте");
         console.log("Событие: ", a);
         console.log("Данные: ", b);
@@ -24,7 +24,7 @@ function main() {
     }
 
     function report_solve() {
-        l_info("Отправляем \"$lesson_finish\"...");
+        l_info("");
         send_event("$lesson_finish");
         reload_on_sent();
     }
@@ -40,7 +40,7 @@ function main() {
     }
 
     function solve_current() {
-        l_info("Решаем текущее задание...");
+        l_info("");
         if (Card.Player.__score.current + 1 <= Card.Player.__score.total)
             Card.Player.__score.current++; 
         if (Card.Player.__score._index + 2 <= Card.Player.__score.total) 
@@ -58,7 +58,7 @@ function main() {
     }
 
     function solve_all() {
-        l_info("Автоматическое решение включено!");
+        l_info("");
         sessionStorage.setItem('solverUrl', location.href);
         sessionStorage.setItem('doSolve', 'true');
         solve_current();
