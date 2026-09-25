@@ -3,9 +3,9 @@
         {
             "urls": [ "https://uchi.ru/*/cards/*", "https://uchi.ru/cards/*" ],
             "scripts": [ "libs/logging.js", "code/card.js" ]
-        }
+        },
         {
-            "urls": [ "https://uchi.ru/exercise/", "https://uchi.ru/exercise/*" ],
+            "urls": [ "https://uchi.ru/exercise", "https://uchi.ru/exercise/*" ],
             "scripts": [ "libs/logging.js", "code/card.js" ]
         },
         {
