@@ -5,7 +5,7 @@
             "scripts": [ "libs/logging.js", "code/card.js" ]
         }
         {
-            "urls": [ "https://uchi.ru/exercise/player?*", "https://uchi.ru/exercise/player?*/" ],
+            "urls": [ "https://uchi.ru/exercise", "https://uchi.ru/exercise/*" ],
             "scripts": [ "libs/logging.js", "code/card.js" ]
         },
         {
