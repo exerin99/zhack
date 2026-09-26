@@ -126,7 +126,7 @@ async function main() {
 
     ZHack = {};
     ZHack.type = "b2t";
-    ZHack.version = "v1.0.1";
+    ZHack.version = "v1.0.2";
 
     await main();
 })();
