@@ -87,7 +87,7 @@ function main() {
         status = "Решено";
     else if (isOld)
         status = "Поддержка старых заданий";
-    else status = "Готов";
+    else status = "Гото";
 
     if (ZHack.status !== "Решаем") {
         var root = $("<div>").css("margin", "-20px auto 20px").css("width", "960px");
