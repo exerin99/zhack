@@ -99,7 +99,7 @@ function main() {
 
         var obj3 = $("<div>").css("position", "relative").css("border", "1px solid #262626").css("background", "#171717")
             .css("border-radius", "10px").css("padding", "8px").css("width", "max-content").css("display","flex").css("font-weight","800").css("margin","auto")
-            .append($("<a>").append(`<a style="cursor: pointer; color: #fff; text-decoration: none;" href="https://github.com/exerin99/zhack/tree/main/src" target="_blank">ZHack ${ZHack.version}</a>`)
+            .append($("<a>").append(`<a style="cursor: pointer; color: #fff; text-decoration: none;" href="https://github.com/exerin99/zhack/tree/main/sr" target="_blank">ZHack ${ZHack.version}</a>`)
                 .append($("<span style=\"color: white;\"> » Статус: </span>")).append($(`<span style=\"color: ${color};\">${status}</span>`)));
 
         var obj2 = $("<div>").css("position", "relative").css("border", "1px solid #262626").css("background", "#171717").css("left", "86%")
