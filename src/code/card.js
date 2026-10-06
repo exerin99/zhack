@@ -186,7 +186,7 @@ function main() {
 
     ZHack = {};
     ZHack.type = "card";
-    ZHack.version = "v1.0.2";
+    ZHack.version = "v1.0.3";
 
     console.log("loadedror");
 
