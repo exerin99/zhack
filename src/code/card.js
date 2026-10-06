@@ -30,18 +30,17 @@ function main() {
 
     function solve_current() {
         if (Card.Player.__score.current + 1 <= Card.Player.__score.total)
-            Card.Player.__score.current++; 
-        if (Card.Player.__score._index + 2 <= Card.Player.__score.total) 
+            Card.Player.__score.current++;
+        if (Card.Player.__score._index + 2 <= Card.Player.__score.total)
             Card.Player.__score._index += 2;
         else Card.Player.__score._index--;
         send_event("beads_exercise_finish_succ", {
             "amount": Card.Player.__score.current,
             "total": Card.Player.__score.total
         });
-        // Отправляем текущий "__score"
-        if (isOld) send_event("$store", get_score_json()); 
-        else send_event("$store", {                  
-            "json": JSON.stringify(get_score_json()) 
+        if (isOld) send_event("$store", get_score_json());
+        else send_event("$store", {
+            "json": JSON.stringify(get_score_json())
         });
     }
 
@@ -49,36 +48,28 @@ function main() {
         sessionStorage.setItem('solverUrl', location.href);
         sessionStorage.setItem('doSolve', 'true');
         solve_current();
-        if (Card.Player.__score.current >= Card.Player.__score.total) 
-            report_solve(); 
+        if (Card.Player.__score.current >= Card.Player.__score.total)
+            report_solve();
 
         reload_on_sent();
     }
-
 
     function test_count() {
         if (count >= 1) {
             location.reload(false);
             return;
         }
-
-        setTimeout(function () {
-            test_count();
-        }, 50);
+        setTimeout(function () { test_count(); }, 50);
     }
 
     function reload_on_sent() {
-        setTimeout(function () {
-            test_count();
-        }, 50);
-        $(document).ajaxStop(function () {
-            count++;
-        });
+        setTimeout(function () { test_count(); }, 50);
+        $(document).ajaxStop(function () { count++; });
     }
 
     color = "#00DC82";
 
-    if (sessionStorage.getItem('doSolve') === 'true' 
+    if (sessionStorage.getItem('doSolve') === 'true'
         && sessionStorage.getItem('solved') !== 'true'
         && sessionStorage.getItem('solverUrl') == location.href) {
         color = "#FF8B20";
@@ -90,67 +81,90 @@ function main() {
     else status = "Гото";
 
     if (ZHack.status !== "Решаем") {
-        // Корневой контейнер - фиксированный, поверх всего
-        var root = $("<div>")
-            .attr("id", "zhack-root")
-            .css({
-                "position": "fixed",
-                "top": "0",
-                "left": "0",
-                "width": "100%",
-                "z-index": "2147483647",
-                "pointer-events": "none",
-                "display": "flex",
-                "flex-direction": "column",
-                "align-items": "center",
-                "padding-top": "10px",
-                "box-sizing": "border-box"
-            });
+        // Удаляем старый, если остался
+        var old = document.getElementById("zhack-dialog");
+        if (old) old.remove();
 
-        // Общий стиль для кнопок
-        var btnStyle = {
-            "position": "relative",
-            "z-index": "2147483647",
-            "border": "1px solid #262626",
-            "background": "#171717",
-            "border-radius": "10px",
-            "padding": "8px",
-            "width": "max-content",
-            "display": "flex",
-            "font-weight": "800",
-            "pointer-events": "auto",
-            "margin": "4px"
-        };
+        // <dialog> всегда попадает в top-layer, поверх ВСЕГО
+        var dlg = document.createElement("dialog");
+        dlg.id = "zhack-dialog";
+        dlg.setAttribute("open", "");
+        dlg.style.cssText = [
+            "position: fixed",
+            "top: 8px",
+            "left: 50%",
+            "transform: translateX(-50%)",
+            "margin: 0",
+            "padding: 8px",
+            "border: none",
+            "background: transparent",
+            "z-index: 2147483647",
+            "display: flex",
+            "gap: 8px",
+            "align-items: center",
+            "pointer-events: none",
+            "max-width: none",
+            "width: max-content",
+            "overflow: visible"
+        ].join("; ");
 
-        var obj1 = $("<div>")
-            .css(btnStyle)
-            .append($("<a>").append($("<span>").css("cursor", "pointer").text("Решить карточку")).on("click", function () {
-                solve_all();
-            }));
+        // Некоторые сайты сбрасывают стили dialog через ::backdrop, подстрахуемся
+        var styleTag = document.createElement("style");
+        styleTag.textContent = `
+            #zhack-dialog::backdrop { background: transparent !important; }
+            #zhack-dialog { z-index: 2147483647 !important; }
+            #zhack-dialog .zhack-btn { pointer-events: auto !important; }
+        `;
+        document.head.appendChild(styleTag);
 
-        var obj3 = $("<div>")
-            .css(btnStyle)
-            .append($("<a>").append(`<a style="cursor: pointer; color: #fff; text-decoration: none;" href="https://github.com/exerin99/zhack/tree/main/sr" target="_blank">ZHack ${ZHack.version}</a>`)
-                .append($("<span style=\"color: white;\"> » Статус: </span>")).append($(`<span style=\"color: ${color};\">${status}</span>`)));
+        function makeBtn(html, onClick) {
+            var b = document.createElement("div");
+            b.className = "zhack-btn";
+            b.style.cssText = [
+                "border: 1px solid #262626",
+                "background: #171717",
+                "border-radius: 10px",
+                "padding: 8px",
+                "width: max-content",
+                "display: flex",
+                "font-weight: 800",
+                "pointer-events: auto",
+                "cursor: pointer"
+            ].join("; ");
+            b.innerHTML = html;
+            if (onClick) b.addEventListener("click", onClick);
+            return b;
+        }
 
-        var obj2 = $("<div>")
-            .css(btnStyle)
-            .append($("<a>").append($("<span>").css("cursor", "pointer").text("Решить задание")).on("click", function () {
-                solve_current();
-                reload_on_sent();
-            }));
+        var btn1 = makeBtn('<span style="cursor:pointer;color:#fff">Решить карточку</span>', function () {
+            solve_all();
+        });
 
-        obj1.appendTo(root);
-        obj3.appendTo(root);
-        obj2.appendTo(root);
-        root.appendTo("body");
+        var btn3 = makeBtn(
+            `<a style="cursor:pointer;color:#fff;text-decoration:none;" href="https://github.com/exerin99/zhack/tree/main/sr" target="_blank">ZHack ${ZHack.version}</a>` +
+            `<span style="color:white;margin-left:6px;"> » Статус: </span>` +
+            `<span style="color:${color};">${status}</span>`
+        );
 
-        // Принудительно поднимаем z-index через !important на случай конфликтов
-        setTimeout(function () {
-            $("#zhack-root").attr("style", function(i, s) {
-                return s + "; z-index: 2147483647 !important; position: fixed !important;";
-            });
-        }, 0);
+        var btn2 = makeBtn('<span style="cursor:pointer;color:#fff">Решить задание</span>', function () {
+            solve_current();
+            reload_on_sent();
+        });
+
+        dlg.appendChild(btn1);
+        dlg.appendChild(btn3);
+        dlg.appendChild(btn2);
+
+        // ВАЖНО: вставляем в documentElement, а не в body
+        document.documentElement.appendChild(dlg);
+
+        // showModal переносит в top-layer — гарантированно поверх всего
+        try {
+            dlg.showModal();
+            dlg.style.setProperty("pointer-events", "none", "important");
+        } catch (e) {
+            // если showModal упал (уже открыт) — игнорим
+        }
     }
 
     if (sessionStorage.getItem('doSolve') === 'true' && sessionStorage.getItem('solverUrl') == location.href) {
@@ -165,7 +179,6 @@ function main() {
                 report_solve();
                 sessionStorage.setItem('solved', 'true');
             }
-
             reload_on_sent();
         }
     }
