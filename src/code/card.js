@@ -90,51 +90,51 @@ function main() {
     else status = "Гото";
 
     if (ZHack.status !== "Решаем") {
+        // Корневой контейнер - фиксированный, поверх всего
         var root = $("<div>")
-            .css("margin", "-20px auto 20px")
-            .css("width", "960px")
-            .css("position", "relative")
-            .css("z-index", "2147483647"); // Поверх всего
+            .attr("id", "zhack-root")
+            .css({
+                "position": "fixed",
+                "top": "0",
+                "left": "0",
+                "width": "100%",
+                "z-index": "2147483647",
+                "pointer-events": "none",
+                "display": "flex",
+                "flex-direction": "column",
+                "align-items": "center",
+                "padding-top": "10px",
+                "box-sizing": "border-box"
+            });
+
+        // Общий стиль для кнопок
+        var btnStyle = {
+            "position": "relative",
+            "z-index": "2147483647",
+            "border": "1px solid #262626",
+            "background": "#171717",
+            "border-radius": "10px",
+            "padding": "8px",
+            "width": "max-content",
+            "display": "flex",
+            "font-weight": "800",
+            "pointer-events": "auto",
+            "margin": "4px"
+        };
 
         var obj1 = $("<div>")
-            .css("position", "relative")
-            .css("z-index", "2147483647") // Поверх всего
-            .css("border", "1px solid #262626")
-            .css("background", "#171717")
-            .css("border-radius", "10px")
-            .css("padding", "8px")
-            .css("width", "max-content")
-            .css("display", "flex")
-            .css("font-weight", "800")
+            .css(btnStyle)
             .append($("<a>").append($("<span>").css("cursor", "pointer").text("Решить карточку")).on("click", function () {
                 solve_all();
             }));
 
         var obj3 = $("<div>")
-            .css("position", "relative")
-            .css("z-index", "2147483647") // Поверх всего
-            .css("border", "1px solid #262626")
-            .css("background", "#171717")
-            .css("border-radius", "10px")
-            .css("padding", "8px")
-            .css("width", "max-content")
-            .css("display", "flex")
-            .css("font-weight", "800")
-            .css("margin", "auto")
+            .css(btnStyle)
             .append($("<a>").append(`<a style="cursor: pointer; color: #fff; text-decoration: none;" href="https://github.com/exerin99/zhack/tree/main/sr" target="_blank">ZHack ${ZHack.version}</a>`)
                 .append($("<span style=\"color: white;\"> » Статус: </span>")).append($(`<span style=\"color: ${color};\">${status}</span>`)));
 
         var obj2 = $("<div>")
-            .css("position", "relative")
-            .css("z-index", "2147483647") // Поверх всего
-            .css("border", "1px solid #262626")
-            .css("background", "#171717")
-            .css("left", "86%")
-            .css("border-radius", "10px")
-            .css("padding", "8px")
-            .css("width", "max-content")
-            .css("display", "flex")
-            .css("font-weight", "800")
+            .css(btnStyle)
             .append($("<a>").append($("<span>").css("cursor", "pointer").text("Решить задание")).on("click", function () {
                 solve_current();
                 reload_on_sent();
@@ -144,6 +144,13 @@ function main() {
         obj3.appendTo(root);
         obj2.appendTo(root);
         root.appendTo("body");
+
+        // Принудительно поднимаем z-index через !important на случай конфликтов
+        setTimeout(function () {
+            $("#zhack-root").attr("style", function(i, s) {
+                return s + "; z-index: 2147483647 !important; position: fixed !important;";
+            });
+        }, 0);
     }
 
     if (sessionStorage.getItem('doSolve') === 'true' && sessionStorage.getItem('solverUrl') == location.href) {
