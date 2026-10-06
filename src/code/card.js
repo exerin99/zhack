@@ -31,7 +31,7 @@ function main() {
     }
 
     function solve_current() {
-        if (Card.Player.__score.current + 1 <= Card.Player.__score.total)
+        if (Card.Player.__score.current + Card.Player.__score.total <= Card.Player.__score.total)
             Card.Player.__score.current++;
         if (Card.Player.__score._index + 2 <= Card.Player.__score.total)
             Card.Player.__score._index += 2;
