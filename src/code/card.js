@@ -90,20 +90,51 @@ function main() {
     else status = "Гото";
 
     if (ZHack.status !== "Решаем") {
-        var root = $("<div>").css("margin", "-20px auto 20px").css("width", "960px");
-        var obj1 = $("<div>").css("position", "relative").css("border", "1px solid #262626").css("background", "#171717")
-            .css("border-radius", "10px").css("padding", "8px").css("width", "max-content").css("display","flex").css("font-weight","800")
+        var root = $("<div>")
+            .css("margin", "-20px auto 20px")
+            .css("width", "960px")
+            .css("position", "relative")
+            .css("z-index", "2147483647"); // Поверх всего
+
+        var obj1 = $("<div>")
+            .css("position", "relative")
+            .css("z-index", "2147483647") // Поверх всего
+            .css("border", "1px solid #262626")
+            .css("background", "#171717")
+            .css("border-radius", "10px")
+            .css("padding", "8px")
+            .css("width", "max-content")
+            .css("display", "flex")
+            .css("font-weight", "800")
             .append($("<a>").append($("<span>").css("cursor", "pointer").text("Решить карточку")).on("click", function () {
                 solve_all();
             }));
 
-        var obj3 = $("<div>").css("position", "relative").css("border", "1px solid #262626").css("background", "#171717")
-            .css("border-radius", "10px").css("padding", "8px").css("width", "max-content").css("display","flex").css("font-weight","800").css("margin","auto")
+        var obj3 = $("<div>")
+            .css("position", "relative")
+            .css("z-index", "2147483647") // Поверх всего
+            .css("border", "1px solid #262626")
+            .css("background", "#171717")
+            .css("border-radius", "10px")
+            .css("padding", "8px")
+            .css("width", "max-content")
+            .css("display", "flex")
+            .css("font-weight", "800")
+            .css("margin", "auto")
             .append($("<a>").append(`<a style="cursor: pointer; color: #fff; text-decoration: none;" href="https://github.com/exerin99/zhack/tree/main/sr" target="_blank">ZHack ${ZHack.version}</a>`)
                 .append($("<span style=\"color: white;\"> » Статус: </span>")).append($(`<span style=\"color: ${color};\">${status}</span>`)));
 
-        var obj2 = $("<div>").css("position", "relative").css("border", "1px solid #262626").css("background", "#171717").css("left", "86%")
-            .css("border-radius", "10px").css("padding", "8px").css("width", "max-content").css("display","flex").css("font-weight","800")
+        var obj2 = $("<div>")
+            .css("position", "relative")
+            .css("z-index", "2147483647") // Поверх всего
+            .css("border", "1px solid #262626")
+            .css("background", "#171717")
+            .css("left", "86%")
+            .css("border-radius", "10px")
+            .css("padding", "8px")
+            .css("width", "max-content")
+            .css("display", "flex")
+            .css("font-weight", "800")
             .append($("<a>").append($("<span>").css("cursor", "pointer").text("Решить задание")).on("click", function () {
                 solve_current();
                 reload_on_sent();
