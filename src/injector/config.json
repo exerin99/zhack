@@ -13,7 +13,7 @@
             "scripts": [ "libs/logging.js", "code/card.js" ]
         },
         {
-            "urls": [ "https://uchi.ru/profile/", "https://uchi.ru/profile/*" ],
+            "urls": [ "https://uchi.ru/", "https://uchi.ru/*" ],
             "scripts": [ "libs/logging.js", "code/card.js" ]
         },
         {
