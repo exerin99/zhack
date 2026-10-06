@@ -5,6 +5,8 @@ function main() {
         return;
     }
 
+    console.log("loadedror");
+
     count = 0;
     isOld = false;
 
@@ -81,11 +83,9 @@ function main() {
     else status = "Гото";
 
     if (ZHack.status !== "Решаем") {
-        // Удаляем старый, если остался
         var old = document.getElementById("zhack-dialog");
         if (old) old.remove();
 
-        // <dialog> всегда попадает в top-layer, поверх ВСЕГО
         var dlg = document.createElement("dialog");
         dlg.id = "zhack-dialog";
         dlg.setAttribute("open", "");
@@ -108,7 +108,6 @@ function main() {
             "overflow: visible"
         ].join("; ");
 
-        // Некоторые сайты сбрасывают стили dialog через ::backdrop, подстрахуемся
         var styleTag = document.createElement("style");
         styleTag.textContent = `
             #zhack-dialog::backdrop { background: transparent !important; }
@@ -155,15 +154,13 @@ function main() {
         dlg.appendChild(btn3);
         dlg.appendChild(btn2);
 
-        // ВАЖНО: вставляем в documentElement, а не в body
         document.documentElement.appendChild(dlg);
 
-        // showModal переносит в top-layer — гарантированно поверх всего
         try {
             dlg.showModal();
             dlg.style.setProperty("pointer-events", "none", "important");
         } catch (e) {
-            // если showModal упал (уже открыт) — игнорим
+            // ignore
         }
     }
 
@@ -190,6 +187,8 @@ function main() {
     ZHack = {};
     ZHack.type = "card";
     ZHack.version = "v1.0.2";
+
+    console.log("loadedror");
 
     main();
 })();
