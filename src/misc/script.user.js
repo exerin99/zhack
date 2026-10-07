@@ -2,7 +2,7 @@
 // @name         ZHack
 // @namespace    https://github.com/exerin99/zhack/tree/main/src
 // @version      1.0.2
-// @description  Injects ZHack v1.0.1
+// @description  Injects ZHack v1.0.2
 // @author       ZHack Libs
 // @match        https://uchi.ru/*
 // @icon         https://cdn.jsdelivr.net/gh/exerin99/zhack/src/icons/192.png
