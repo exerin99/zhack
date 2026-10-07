@@ -13,7 +13,7 @@
             "scripts": [ "libs/logging.js", "code/card.js" ]
         },
         {
-            "urls": [ "https://uchi.ru/b2t/student/*" ],
+            "urls": [ "https://uchi.ru/profile/students/*" ],
             "scripts": [ "libs/logging.js", "libs/jquery.js", 
                 "libs/katex.js", "code/b2t.js" ]
         },
