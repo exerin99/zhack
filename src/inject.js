@@ -39,7 +39,7 @@ if (wildcard(location.href, "https://uchi.ru*/cards/*")) {
     el.setAttribute('type', 'text/javascript');
     el.src = browser.runtime.getURL("card.js");
     document.head.append(el);
-} else if (wildcard(location.href, "https://uchi.ru/player/*")) {
+} else if (wildcard(location.href, "https://uchi.ru/profile/*")) {
     // Main Script
     var el = document.createElement('script');
     el.setAttribute('type', 'text/javascript');
