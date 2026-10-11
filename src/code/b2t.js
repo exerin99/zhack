@@ -49,6 +49,7 @@ async function main() {
                 return ans.id == amogus[2];
             });
 
+            l_info(`Загрузка ответом на задание с ID ${amogus[2]}...`);
             try {
                 rootDiv = $("<div>").css("order", "500").css("margin-top", "20px").addClass("urmom");
 
@@ -97,11 +98,13 @@ async function main() {
                             break;
                     }
 
+                    l_success(`Загрузка ответов завершена!`);
                     loadKatex();
                 }
 
                 setTimeout(main2, 100);
             } catch (error) {
+                l_error(`Не удалось решить задние: ${error}!`);
             }
         }
     }
@@ -126,7 +129,8 @@ async function main() {
 
     ZHack = {};
     ZHack.type = "b2t";
-    ZHack.version = "v1.0.3";
+    ZHack.version = "v1.0.1";
+    l_exinfo(`Версия ${ZHack.version}`, ZHack.style1, ZHack.style5);
 
     await main();
 })();
