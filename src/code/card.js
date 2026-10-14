@@ -42,18 +42,17 @@ function main() {
     function solve_current() {
         l_info("Решаем текущее задание...");
         if (Card.Player.__score.current + 1 <= Card.Player.__score.total)
-            Card.Player.__score.current++; 
-        if (Card.Player.__score._index + 2 <= Card.Player.__score.total) 
+            Card.Player.__score.current++;
+        if (Card.Player.__score._index + 2 <= Card.Player.__score.total)
             Card.Player.__score._index += 2;
         else Card.Player.__score._index--;
         send_event("beads_exercise_finish_succ", {
             "amount": Card.Player.__score.current,
             "total": Card.Player.__score.total
         });
-        // Отправляем текущий "__score"
-        if (isOld) send_event("$store", get_score_json()); 
-        else send_event("$store", {                  
-            "json": JSON.stringify(get_score_json()) 
+        if (isOld) send_event("$store", get_score_json());
+        else send_event("$store", {
+            "json": JSON.stringify(get_score_json())
         });
     }
 
@@ -62,36 +61,28 @@ function main() {
         sessionStorage.setItem('solverUrl', location.href);
         sessionStorage.setItem('doSolve', 'true');
         solve_current();
-        if (Card.Player.__score.current >= Card.Player.__score.total) 
-            report_solve(); 
+        if (Card.Player.__score.current >= Card.Player.__score.total)
+            report_solve();
 
         reload_on_sent();
     }
-
 
     function test_count() {
         if (count >= 1) {
             location.reload(false);
             return;
         }
-
-        setTimeout(function () {
-            test_count();
-        }, 50);
+        setTimeout(function () { test_count(); }, 50);
     }
 
     function reload_on_sent() {
-        setTimeout(function () {
-            test_count();
-        }, 50);
-        $(document).ajaxStop(function () {
-            count++;
-        });
+        setTimeout(function () { test_count(); }, 50);
+        $(document).ajaxStop(function () { count++; });
     }
 
     color = "#00DC82";
 
-    if (sessionStorage.getItem('doSolve') === 'true' 
+    if (sessionStorage.getItem('doSolve') === 'true'
         && sessionStorage.getItem('solved') !== 'true'
         && sessionStorage.getItem('solverUrl') == location.href) {
         color = "#FF8B20";
@@ -103,29 +94,89 @@ function main() {
     else status = "Готов";
 
     if (ZHack.status !== "Решаем") {
-        var root = $("<div>").css("margin", "-20px auto 20px").css("width", "960px");
-        var obj1 = $("<div>").css("position", "relative").css("border", "1px solid #262626").css("background", "#171717")
-            .css("border-radius", "10px").css("padding", "8px").css("width", "max-content").css("display","flex").css("font-weight","800")
-            .append($("<a>").append($("<span>").css("cursor", "pointer").text("Решить карточку")).on("click", function () {
-                solve_all();
-            }));
+        // --- Меню в top-layer через <dialog> ---
+        var old = document.getElementById("zhack-dialog");
+        if (old) old.remove();
 
-        var obj3 = $("<div>").css("position", "relative").css("border", "1px solid #262626").css("background", "#171717")
-            .css("border-radius", "10px").css("padding", "8px").css("width", "max-content").css("display","flex").css("font-weight","800").css("margin","auto")
-            .append($("<a>").append(`<a style="cursor: pointer; color: #fff; text-decoration: none;" href="https://github.com/theinfinityway/zhack/tree/main/src" target="_blank">ZHack ${ZHack.version}</a>`)
-                .append($("<span style=\"color: white;\"> » Статус: </span>")).append($(`<span style=\"color: ${color};\">${status}</span>`)));
+        var dlg = document.createElement("dialog");
+        dlg.id = "zhack-dialog";
+        dlg.setAttribute("open", "");
+        dlg.style.cssText = [
+            "position: fixed",
+            "top: 8px",
+            "left: 50%",
+            "transform: translateX(-50%)",
+            "margin: 0",
+            "padding: 8px",
+            "border: none",
+            "background: transparent",
+            "z-index: 2147483647",
+            "display: flex",
+            "gap: 8px",
+            "align-items: center",
+            "pointer-events: none",
+            "max-width: none",
+            "width: max-content",
+            "overflow: visible"
+        ].join("; ");
 
-        var obj2 = $("<div>").css("position", "relative").css("border", "1px solid #262626").css("background", "#171717").css("left", "86%")
-            .css("border-radius", "10px").css("padding", "8px").css("width", "max-content").css("display","flex").css("font-weight","800")
-            .append($("<a>").append($("<span>").css("cursor", "pointer").text("Решить задание")).on("click", function () {
-                solve_current();
-                reload_on_sent();
-            }));
+        // Подстраховка от стилей сайта
+        var styleTag = document.createElement("style");
+        styleTag.textContent = `
+            #zhack-dialog::backdrop { background: transparent !important; }
+            #zhack-dialog { z-index: 2147483647 !important; }
+            #zhack-dialog .zhack-btn { pointer-events: auto !important; }
+        `;
+        document.head.appendChild(styleTag);
 
-        obj1.appendTo(root);
-        obj3.appendTo(root);
-        obj2.appendTo(root);
-        root.appendTo("body");
+        function makeBtn(html, onClick) {
+            var b = document.createElement("div");
+            b.className = "zhack-btn";
+            b.style.cssText = [
+                "border: 1px solid #262626",
+                "background: #171717",
+                "border-radius: 10px",
+                "padding: 8px",
+                "width: max-content",
+                "display: flex",
+                "font-weight: 800",
+                "pointer-events: auto",
+                "cursor: pointer"
+            ].join("; ");
+            b.innerHTML = html;
+            if (onClick) b.addEventListener("click", onClick);
+            return b;
+        }
+
+        var btn1 = makeBtn('<span style="cursor:pointer;color:#fff">Решить карточку</span>', function () {
+            solve_all();
+        });
+
+        var btn3 = makeBtn(
+            `<a style="cursor:pointer;color:#fff;text-decoration:none;" href="https://github.com/theinfinityway/zhack/tree/main/src" target="_blank">ZHack ${ZHack.version}</a>` +
+            `<span style="color:white;margin-left:6px;"> » Статус: </span>` +
+            `<span style="color:${color};">${status}</span>`
+        );
+
+        var btn2 = makeBtn('<span style="cursor:pointer;color:#fff">Решить задание</span>', function () {
+            solve_current();
+            reload_on_sent();
+        });
+
+        dlg.appendChild(btn1);
+        dlg.appendChild(btn3);
+        dlg.appendChild(btn2);
+
+        // Вставляем в documentElement, а не в body
+        document.documentElement.appendChild(dlg);
+
+        // showModal переносит в top-layer — гарантированно поверх всего
+        try {
+            dlg.showModal();
+            dlg.style.setProperty("pointer-events", "none", "important");
+        } catch (e) {
+            l_exinfo("showModal не сработал: " + e);
+        }
     }
 
     if (sessionStorage.getItem('doSolve') === 'true' && sessionStorage.getItem('solverUrl') == location.href) {
